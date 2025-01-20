@@ -1,0 +1,52 @@
+header {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+header > * {
+    text-transform: uppercase;
+}
+
+header > nav {
+    width: 100%;
+}
+
+.header-link {
+    font-size: larger;
+    font-weight: bold;
+
+    background-color: inherit;
+    transition-property: background-color;
+    transition-duration: 0.2s;
+}
+
+.header-link:hover {
+    background-color: lightgray;
+    transition-property: background-color;
+    transition-duration: 0.4s;
+}
+
+@media screen and (min-width: 620px) {
+    header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media screen and (min-width: 1300px) {
+    header {
+        display: flex;
+        flex-direction: row;
+
+        width: 60%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
