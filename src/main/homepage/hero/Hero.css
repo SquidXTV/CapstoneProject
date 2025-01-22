@@ -1,0 +1,47 @@
+.hero {
+    padding: 2em;
+    background-color: #495E57;
+
+    > div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    h1, h2 {
+        margin: 0;
+    }
+
+    h2, p {
+        color: white;
+    }
+
+    h1 {
+        color: #F4CE14;
+        font-size: xxx-large;
+        font-weight: bold;
+
+        text-wrap: nowrap;
+    }
+
+    section {
+        width: min-content;
+    }
+
+    p {
+        font-size: x-large;
+    }
+
+    button {
+        padding: 0.5em;
+    }
+
+    img {
+        width: 25%;
+    }
+}

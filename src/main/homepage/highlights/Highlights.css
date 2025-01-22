@@ -1,0 +1,100 @@
+.highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.highlight-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+
+    button {
+        height: fit-content;
+        padding: 0.5em;
+    }
+}
+
+.highlight-offers {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.highlight {
+    display: flex;
+    flex-direction: column;
+
+    background-color: #EDEFEE;
+}
+
+.highlight-image {
+    width: 100%;
+    height: auto;
+}
+
+.highlight-text {
+    display: flex;
+    flex-direction: column;
+
+    flex-grow: 1;
+    padding: 1em;
+
+    div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .highlight-price {
+            color: #EE9972;
+        }
+
+        p {
+            flex-grow: 1;
+        }
+
+    }
+
+    button {
+        background-color: inherit;
+        padding: 0;
+        width: fit-content;
+    }
+}
+
+@media screen and (min-width: 620px) {
+    .highlight-header {
+        width: 90%;
+    }
+
+    .highlight-offers {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+
+        width: 90%;
+    }
+
+    .highlight {
+        max-width: 33%;
+    }
+}
+
+@media screen and (min-width: 1300px) {
+    .highlight-header {
+        width: 50%;
+    }
+
+    .highlight-offers {
+        width: 50%;
+    }
+}

@@ -6,7 +6,7 @@ function Footer() {
         <footer>
             <img src={logo} alt="logo" />
             <section>
-                <h2 className="karla-font">Navigation</h2>
+                <h2>Navigation</h2>
                 <nav>
                     <ul>
                         <li><a href="/home">Home</a></li>
@@ -19,7 +19,7 @@ function Footer() {
                 </nav>
             </section>
             <section>
-                <h2 className="karla-font">Contact</h2>
+                <h2>Contact</h2>
                 <ul>
                     <li>Address</li>
                     <li>Phone Number</li>
@@ -27,7 +27,7 @@ function Footer() {
                 </ul>
             </section>
             <section>
-                <h2 className="karla-font">Social Media Links</h2>
+                <h2>Social Media Links</h2>
                 <ul>
                     <li><a href="https://www.instagram.com">Instagram</a></li>
                     <li><a href="https://www.x.com">Twitter</a></li>
