@@ -1,6 +1,8 @@
 import "./Reservation.css"
-import {useEffect, useState} from "react";
-import {fetchAPI} from "../../util/api";
+import {fetchAPI, submitAPI} from "../../util/api";
+import {ErrorMessage, Field, Form, Formik} from "formik";
+import {useNavigate} from "react-router";
+import * as Yup from 'yup';
 
 function currentDate() {
     const date = new Date();
@@ -10,37 +12,73 @@ function currentDate() {
     return `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""}${day}`;
 }
 
-function Reservation({availableTimes, setAvailableTimes, submitForm}) {
-    const [date, setDate] = useState(currentDate());
-    const [time, setTime] = useState(null);
-    const [guests, setGuests] = useState(1);
-    const [occasion, setOccasion] = useState("Birthday");
+function Reservation({availableTimes, setAvailableTimes}) {
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        setAvailableTimes([...fetchAPI(new Date(date))]);
-    }, [date, setAvailableTimes])
+    const occasions = ["Birthday", "Anniversary", "Engagement"]
+    const initialValues = {
+        date: currentDate(),
+        time: "",
+        guests: 1,
+        occasion: occasions[0]
+    }
+
+    const onSubmit = (values) => {
+        if (submitAPI(values)) {
+            console.log("Success")
+            navigate("/reservations/success");
+        }
+    }
+
+    const validationSchema = Yup.object({
+        date: Yup.date().min(new Date(), "The reservation date must be in the future.").required("The reservation date is required."),
+        time: Yup.string().matches(/^([01]\d|2[0-3]):([0-5]\d)$/, "Time must be in the format HH:MM.").required("The reservation time is required."),
+        guests: Yup.number().min(1, "At least one guest is required.").max(10, "At most ten guests possible.").required("The number of guests is required."),
+        occasion: Yup.string().oneOf(occasions, `Occasion must be one of the following: ${occasions}`).required("The occasion is required."),
+    })
 
     return (
-        <form onSubmit={() => submitForm([date, time, guests, occasion])}>
-            <label htmlFor="res-date">Choose date</label>
-            <input type="date" id="res-date" value={date} onChange={(e) => setDate(e.target.value)} />
+        <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+            validationSchema={validationSchema}>
+            {({handleChange}) => (
+                <Form>
+                    <label htmlFor="date">Reservation Date:</label>
+                    <Field id="date" name="date" type="date" onChange={(e) => {
+                        handleChange(e);
+                        setAvailableTimes([...fetchAPI(new Date(e.target.value))]);
+                    }}/>
+                    <ErrorMessage name="date" component="div" style={{color: 'red'}}/>
 
-            <label htmlFor="res-time">Choose time</label>
-            <select id="res-time" value={time} onChange={(e) => setTime(e.target.value)}>
-                {availableTimes.map((availableTime) => (
-                    <option key={availableTime}>{availableTime}</option>
-                ))}
-            </select>
+                    <label htmlFor="time">Reservation Time:</label>
+                    <Field id="time" name="time" as="select">
+                        {availableTimes.map((time) => (
+                            <option key={time} value={time}>
+                                {time}
+                            </option>
+                        ))}
+                    </Field>
+                    <ErrorMessage name="time" component="div" style={{color: 'red'}}/>
 
-            <label htmlFor="guests">Number of guests</label>
-            <input type="number" min="1" max="10" id="guests" value={guests} onChange={(e) => setGuests(e.target.value)}/>
-            <label htmlFor="occasion">Occasion</label>
-            <select id="occasion" value={occasion} onChange={(e) => setOccasion(e.target.value)}>
-                <option>Birthday</option>
-                <option>Anniversary</option>
-            </select>
-            <input type="submit" value="Make Your reservation"/>
-        </form>
+                    <label htmlFor="guests">Number of Guests:</label>
+                    <Field id="guests" name="guests" min="1" max="10" type="number"/>
+                    <ErrorMessage name="guests" component="div" style={{color: 'red'}}/>
+
+                    <label htmlFor="occasion">Occasion:</label>
+                    <Field id="occasion" name="occasion" as="select">
+                        {occasions.map((occasion) => (
+                            <option key={occasion} value={occasion}>
+                                {occasion}
+                            </option>
+                        ))}
+                    </Field>
+                    <ErrorMessage name="occasion" component="div" style={{color: 'red'}}/>
+
+                    <button type="submit">Make your reservation</button>
+                </Form>
+            )}
+        </Formik>
     )
 }
 
